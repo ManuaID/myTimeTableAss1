@@ -8,6 +8,8 @@ import java.util.Scanner;
 public class MainMenu {
 
     private String name;
+
+	Search search = new Search();
     
     public MainMenu(String name) {
     	this.name = name;
@@ -21,29 +23,30 @@ public class MainMenu {
      * The method to operate the restaurant.
      */
     public void run() {
+		// Data data = new Data();
+		// ArrayList<data_record> classLists = new ArrayList<>();
+
+		// classLists = data.getData("course-1.csv");
+
+		// for (data_record temp : classLists) {
+		// 	temp.printData();
+		// }
+
     	boolean exit = false;
 		String input = "";
-		while(exit) {
+		while(!exit) {
 			printMenu(name);
 
 			input = readUserInput();
 
 			switch (input) {
-				case "1":
-					System.out.println("Search function to be coded");
-					break;
-				case "2":
-					System.out.println("Enroll function to be coded");
-					break;
-				case "3":
-					System.out.println("Implement Withdraw from course");
-					break;
-				default:
-					System.out.println("Please input a number between 1-4");
-					throw new AssertionError();
+				case "1" -> System.out.println("Search function to be coded");
+				case "2" -> System.out.println("Enroll function to be coded");
+				case "3" -> System.out.println("Implement Withdraw from course");
+				case "4" -> exit = true;
+				default -> System.out.println("Please input a number between 1-4");
 			}
 		}
-
     }
     
 	/**
