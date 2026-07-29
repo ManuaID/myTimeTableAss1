@@ -6,7 +6,7 @@ package console.program;
 public class Main {
 	
 	public static void main(String args[]){
-		Restaurant restaurant = new Restaurant("Fast Burger");
+		MainMenu restaurant = new MainMenu("myTimeTable");
 		restaurant.run();
 	}
 
