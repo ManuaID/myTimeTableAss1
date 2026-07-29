@@ -37,8 +37,9 @@ public class MainMenu {
 		while(!exit) {
 			printMenu(name);
 
+			System.out.println("Please select: ");
 			input = readUserInput();
-
+			
 			switch (input) {
 				case "1" -> System.out.println("Search function to be coded");
 				case "2" -> System.out.println("Enroll function to be coded");

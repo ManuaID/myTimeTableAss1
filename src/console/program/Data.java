@@ -7,14 +7,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 class data_record {
-    private String course_name;
-    private int capacity;
-    private String year;
-    private String Delivery_mode;
-    private String classDates;
-    private LocalTime classTime;
-    private float durationLec;
-    private int num_curr_enrollment;
+    public String course_name;
+    public int capacity;
+    public String year;
+    public String Delivery_mode;
+    public String classDates;
+    public LocalTime classTime;
+    public float durationLec;
+    public int num_curr_enrollment;
 
     public data_record(String course_name, int capacity, String year, String Delivery_mode, String classDates, LocalTime classTime, float durationLec, int num_curr_enrollment) {
         this.course_name = course_name;
