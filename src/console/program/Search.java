@@ -1,7 +1,6 @@
 package console.program;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Search {
 
@@ -14,22 +13,19 @@ public class Search {
 
     public ArrayList<String> getCourseList(String input) {
         Boolean courseExists = false;
-        String inputString;
 
         ArrayList<String> search_results = new ArrayList<>();
-        Scanner scnr = new Scanner(System.in);
 
         while(!courseExists) {
 
             for (data_record data : datas) {
-                if (data.course_name.contains(inputString)) {
+                if (data.course_name.contains(input)) {
                     search_results.add(data.course_name);
                     courseExists = true;
                 }
             }
         }
         
-        scnr.close();
         return search_results;
     }
 
@@ -37,7 +33,8 @@ public class Search {
         ArrayList<String> results = getCourseList(input);
 
         for(int i = 0; i < results.size(); ++i) {
-            
+            System.out.printf("  %d) %s", i + 1, results.get(i));
         }
+        System.out.println("\n");
     }
 }

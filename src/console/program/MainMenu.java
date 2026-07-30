@@ -37,11 +37,11 @@ public class MainMenu {
 		while(!exit) {
 			printMenu(name);
 
-			System.out.println("Please select: ");
+			System.out.print("Please select: ");
 			input = readUserInput();
 			
 			switch (input) {
-				case "1" -> System.out.println("Search function to be coded");
+				case "1" -> printCourseListMenu();
 				case "2" -> System.out.println("Enroll function to be coded");
 				case "3" -> System.out.println("Implement Withdraw from course");
 				case "4" -> exit = true;
@@ -64,6 +64,14 @@ public class MainMenu {
 		System.out.println("  2) Show my enrolled courses");
 		System.out.println("  3) Withdraw from a course");
 		System.out.println("  4) Exit");
+	}
+
+	public void printCourseListMenu() {
+		System.out.print("Please provide a brand: ");
+
+		String input = readUserInput();
+
+		search.printList(input);
 	}
 	
 	/**
