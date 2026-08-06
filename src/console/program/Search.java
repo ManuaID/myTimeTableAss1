@@ -13,10 +13,10 @@ public class Search {
         datas = data.getData("course-1.csv");
     }
 
-    public ArrayList<String> getCourseList(String input) {
+    public ArrayList<data_record> getCourseList(String input) {
         Boolean courseExists = false;
 
-        ArrayList<String> search_results = new ArrayList<>();
+        ArrayList<data_record> search_results = new ArrayList<>();
 
         while(!courseExists) {
 
@@ -24,17 +24,19 @@ public class Search {
                 String courseName = data.course_name.toLowerCase();
                 String inputLower = input.toLowerCase();
                 if (courseName.contains(inputLower)) {
-                    search_results.add(data.course_name);
+                    search_results.add(data);
                     courseExists = true;
                 }
             }
         }
-        
+
         return search_results;
     }
 
     public void printList(String input) {
-        ArrayList<String> results = getCourseList(input);
+        ArrayList<data_record> results = getCourseList(input);
+
+        StudentEnrollment curStudentEnrollment = new StudentEnrollment();
 
         String banner = new String(new char[50]).replace('\u0000', '-');   
 
@@ -43,19 +45,14 @@ public class Search {
         System.out.println(banner);
 
         for(int i = 0; i < results.size(); ++i) {
-            System.out.printf("  %d) %s\n", i + 1, results.get(i));
+            System.out.printf("  %d) %s\n", i + 1, results.get(i).course_name);
         }
 
         System.out.println("Please select: ");
-        Integer desiredCourse = scnr.nextInt();
+        int desiredCourse = scnr.nextInt();
 
         if(desiredCourse >= 1 && desiredCourse <= results.size()) {
-            /* 
-                Enroll in a course if the student don't have enough credit for that 
-                semester and don't let them enroll if they are overloading or something
-
-                Add what ever enrolled to a csv maybe a db? check on requirement
-            */
+            curStudentEnrollment.enroll(results.get(desiredCourse - 1)); 
         }
     }
 }

@@ -54,7 +54,6 @@ public class Data {
         this.fileName = fileName;
 
         File file = new File(fileName);
-
         
         try {
             Scanner inputStream = new Scanner(file);
@@ -103,20 +102,29 @@ class StudentEnrollment extends Data {
     public ArrayList<data_record> enrolled_class = null;
 
     public void enroll(data_record courseClass) {
-        for(int i = 0; i < enrolled_class.size(); ++i) {
-            if (courseClass.course_name.equals(enrolled_class.get(i).course_name)) {
-                System.out.println("You have already enrolled in this course");
-            }
-            else if (!courseClass.classDates.equals(enrolled_class.get(i).classDates)) {
+        if (!enrolled_class.isEmpty()) {
+            for(int i = 0; i < enrolled_class.size(); ++i) {
+    
                 LocalTime enrolledEndTime = enrolled_class.get(i).classTime.plusHours((long)enrolled_class.get(i).duration);
                 LocalTime curEnrollingEndTime = courseClass.classTime.plusHours((long)courseClass.duration);
-                if (courseClass.classTime.compareTo(enrolled_class.get(i).classTime) > 0 && curEnrollingEndTime.compareTo(enrolledEndTime) < -1) {
-                    enrolled_class.add(courseClass);
+    
+                if (courseClass.course_name.equals(enrolled_class.get(i).course_name)) {
+                    System.out.println("You have already enrolled in this course");
+                }
+                else if ((courseClass.classDates.equals(enrolled_class.get(i).classDates)) && 
+                        (courseClass.classTime.compareTo(enrolled_class.get(i).classTime) > 0 && curEnrollingEndTime.compareTo(enrolledEndTime) < -1 )) {
+                            enrolled_class.add(courseClass);
+                }
+                else {
+                        System.out.printf("You cannot enrol in %s because it conflicts with %s.", courseClass.course_name, enrolled_class.get(i).course_name);
                 }
             }
-            else {
-                System.out.printf("You cannot enrol in %s because it conflicts with %s.", courseClass.course_name, enrolled_class.get(i).course_name);
-            }
+        }
+    }
+
+    public void showEnrollment() {
+        for (data_record data_record : enrolled_class) {
+            System.out.println();
         }
     }
 }
