@@ -13,7 +13,7 @@ class data_record {
     public String Delivery_mode;
     public String classDates;
     public LocalTime classTime;
-    public float durationLec;
+    public float duration;
     public int num_curr_enrollment;
 
     public data_record(String course_name, int capacity, String year, String Delivery_mode, String classDates, LocalTime classTime, float durationLec, int num_curr_enrollment) {
@@ -23,7 +23,7 @@ class data_record {
         this.Delivery_mode = Delivery_mode;
         this.classDates = classDates;
         this.classTime = classTime;
-        this.durationLec = durationLec;
+        this.duration = durationLec;
         this.num_curr_enrollment = num_curr_enrollment;
     }
 
@@ -34,7 +34,7 @@ class data_record {
         System.out.println("Delivery Mode: " + Delivery_mode);
         System.out.println("Class Dates: " + classDates);
         System.out.println("Class Time: " + classTime);
-        System.out.println("Duration of Lecture: " + durationLec);
+        System.out.println("Duration of Lecture: " + duration);
         System.out.println("Number of current enrollment: " + num_curr_enrollment);
     }
 }
@@ -96,5 +96,27 @@ public class Data {
 
     public int getSize() {
         return datas.size();
+    }
+}
+
+class StudentEnrollment extends Data {
+    public ArrayList<data_record> enrolled_class = null;
+
+    public void enroll(data_record courseClass) {
+        for(int i = 0; i < enrolled_class.size(); ++i) {
+            if (courseClass.course_name.equals(enrolled_class.get(i).course_name)) {
+                System.out.println("You have already enrolled in this course");
+            }
+            else if (!courseClass.classDates.equals(enrolled_class.get(i).classDates)) {
+                LocalTime enrolledEndTime = enrolled_class.get(i).classTime.plusHours((long)enrolled_class.get(i).duration);
+                LocalTime curEnrollingEndTime = courseClass.classTime.plusHours((long)courseClass.duration);
+                if (courseClass.classTime.compareTo(enrolled_class.get(i).classTime) > 0 && curEnrollingEndTime.compareTo(enrolledEndTime) < -1) {
+                    enrolled_class.add(courseClass);
+                }
+            }
+            else {
+                System.out.printf("You cannot enrol in %s because it conflicts with %s.", courseClass.course_name, enrolled_class.get(i).course_name);
+            }
+        }
     }
 }
