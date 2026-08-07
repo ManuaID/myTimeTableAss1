@@ -5,6 +5,8 @@ import java.util.Scanner;
 
 public class Search {
 
+    StudentEnrollment curStudentEnrollment = new StudentEnrollment();
+
     Data data = new Data();
     ArrayList<data_record> datas = new ArrayList<>();
     Scanner scnr = new Scanner(System.in);
@@ -14,19 +16,13 @@ public class Search {
     }
 
     public ArrayList<data_record> getCourseList(String input) {
-        Boolean courseExists = false;
-
         ArrayList<data_record> search_results = new ArrayList<>();
+        String inputLower = input.toLowerCase();
 
-        while(!courseExists) {
-
-            for (data_record data : datas) {
-                String courseName = data.course_name.toLowerCase();
-                String inputLower = input.toLowerCase();
-                if (courseName.contains(inputLower)) {
-                    search_results.add(data);
-                    courseExists = true;
-                }
+        for (data_record data : datas) {
+            String courseName = data.course_name.toLowerCase();
+            if (courseName.contains(inputLower)) {
+                search_results.add(data);
             }
         }
 
@@ -35,8 +31,6 @@ public class Search {
 
     public void printList(String input) {
         ArrayList<data_record> results = getCourseList(input);
-
-        StudentEnrollment curStudentEnrollment = new StudentEnrollment();
 
         String banner = new String(new char[50]).replace('\u0000', '-');   
 
@@ -48,7 +42,7 @@ public class Search {
             System.out.printf("  %d) %s\n", i + 1, results.get(i).course_name);
         }
 
-        System.out.println("Please select: ");
+        System.out.print("Please select: ");
         int desiredCourse = scnr.nextInt();
 
         if(desiredCourse >= 1 && desiredCourse <= results.size()) {
