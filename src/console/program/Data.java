@@ -129,6 +129,7 @@ class StudentEnrollment extends Data {
         }
 
         enrolled_class.add(courseClass);
+        System.out.printf("You have enrolled in the course %s\n", courseClass.course_name);
     }
 
     public void showEnrollment() {
@@ -141,20 +142,21 @@ class StudentEnrollment extends Data {
 
     public void Withdraw() {
         
-        printEnrolledList();
-        
         System.out.println(banner);
         System.out.println("Please choose a course to withdraw:");
         System.out.println(banner);
 
+        printEnrolledList();
+        
         System.out.print("Please select: ");
         int withdrawInput = sc.nextInt();
+
+        System.out.printf("You have withdrawn from %s\n", enrolled_class.get(withdrawInput).course_name);
 
         if(withdrawInput >= 1 && withdrawInput < enrolled_class.size()) {
             enrolled_class.remove(enrolled_class.get(withdrawInput));
         }
         
-        System.out.println();
     }
 
     private void printEnrolledList() {
