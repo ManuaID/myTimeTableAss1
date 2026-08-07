@@ -10,40 +10,32 @@ public class MainMenu {
     private String name;
 
 	Search search = new Search();
+
+	private static String banner = new String(new char[50]).replace('\u0000', '-');
     
     public MainMenu(String name) {
     	this.name = name;
-    }
-    
-    public String getName() {
-    	return this.name;
     }
     
 	/**
      * The method to operate the restaurant.
      */
     public void run() {
-		// Data data = new Data();
-		// ArrayList<data_record> classLists = new ArrayList<>();
-
-		// classLists = data.getData("course-1.csv");
-
-		// for (data_record temp : classLists) {
-		// 	temp.printData();
-		// }
-
     	boolean exit = false;
-		String input = "";
+		String input;
+
+		System.out.println("\nWelcome to " + name + "!");
+
 		while(!exit) {
-			printMenu(name);
+			printMenu();
 
 			System.out.print("Please select: ");
 			input = readUserInput();
-			
+
 			switch (input) {
 				case "1" -> printCourseListMenu();
-				case "2" -> System.out.println("Enroll function to be coded");
-				case "3" -> System.out.println("Implement Withdraw from course");
+				case "2" -> search.curStudentEnrollment.showEnrollment();
+				case "3" -> search.curStudentEnrollment.Withdraw();
 				case "4" -> exit = true;
 				default -> System.out.println("Please input a number between 1-4");
 			}
@@ -53,10 +45,7 @@ public class MainMenu {
 	/**
      * The utility method to print menu options.
      */
-	public static void printMenu(String name){
-		String banner = new String(new char[50]).replace('\u0000', '-');
-
-		System.out.println("Welcome to " + name + "!");
+	public static void printMenu(){
 		System.out.println(banner);
 		System.out.println("> Select from main menu");
 		System.out.println(banner);

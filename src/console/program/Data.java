@@ -44,6 +44,10 @@ public class Data {
 
     private ArrayList<data_record> datas = null;
 
+    String banner = new String(new char[50]).replace('\u0000', '-');
+
+    Scanner sc = new Scanner(System.in);
+
     public Data() {
         datas = new ArrayList<>();
     }
@@ -99,32 +103,66 @@ public class Data {
 }
 
 class StudentEnrollment extends Data {
-    public ArrayList<data_record> enrolled_class = null;
+    public ArrayList<data_record> enrolled_class = new ArrayList<>();
 
     public void enroll(data_record courseClass) {
-        if (!enrolled_class.isEmpty()) {
-            for(int i = 0; i < enrolled_class.size(); ++i) {
-    
-                LocalTime enrolledEndTime = enrolled_class.get(i).classTime.plusHours((long)enrolled_class.get(i).duration);
-                LocalTime curEnrollingEndTime = courseClass.classTime.plusHours((long)courseClass.duration);
-    
-                if (courseClass.course_name.equals(enrolled_class.get(i).course_name)) {
-                    System.out.println("You have already enrolled in this course");
-                }
-                else if ((courseClass.classDates.equals(enrolled_class.get(i).classDates)) && 
-                        (courseClass.classTime.compareTo(enrolled_class.get(i).classTime) > 0 && curEnrollingEndTime.compareTo(enrolledEndTime) < -1 )) {
-                            enrolled_class.add(courseClass);
-                }
-                else {
-                        System.out.printf("You cannot enrol in %s because it conflicts with %s.", courseClass.course_name, enrolled_class.get(i).course_name);
-                }
+        for (int i = 0; i < enrolled_class.size(); ++i) {
+
+            if (courseClass.course_name.equals(enrolled_class.get(i).course_name)) {
+                System.out.println("You have already enrolled in this course");
+                return;
+            }
+
+            if (courseClass.Delivery_mode.equals("Face-to-face") && courseClass.capacity <= courseClass.num_curr_enrollment) {
+                System.out.println("Sorry. This course has reached its maximum capacity");
+                return;
+            }
+
+            LocalTime enrolledEndTime = enrolled_class.get(i).classTime.plusHours((long) enrolled_class.get(i).duration);
+            LocalTime newEndTime = courseClass.classTime.plusMinutes((long) (courseClass.duration * 60));
+            boolean overlaps = courseClass.classTime.isBefore(enrolledEndTime) && enrolled_class.get(i).classTime.isBefore(newEndTime);
+
+            if (overlaps) {
+                System.out.printf("You cannot enrol in %s because it conflicts with %s.%n", courseClass.course_name, enrolled_class.get(i).course_name);
+                return;
             }
         }
+
+        enrolled_class.add(courseClass);
     }
 
     public void showEnrollment() {
-        for (data_record data_record : enrolled_class) {
-            System.out.println();
+        int i = 1;
+        System.out.println(banner);
+        System.out.println("You have enrolled into the following course(s):");
+        System.out.println(banner);
+        printEnrolledList();
+    }
+
+    public void Withdraw() {
+        
+        printEnrolledList();
+        
+        System.out.println(banner);
+        System.out.println("Please choose a course to withdraw:");
+        System.out.println(banner);
+
+        System.out.print("Please select: ");
+        int withdrawInput = sc.nextInt();
+
+        if(withdrawInput >= 1 && withdrawInput < enrolled_class.size()) {
+            enrolled_class.remove(enrolled_class.get(withdrawInput));
+        }
+        
+        System.out.println();
+    }
+
+    private void printEnrolledList() {
+        int i = 1;
+        for (data_record course: enrolled_class) {
+            LocalTime courseEndTime = course.classTime.plusMinutes((long) (course.duration * 60));
+            System.out.printf("%d) %s\t%s\t%s %s - %s%n", i, course.course_name, course.Delivery_mode, course.classDates, course.classTime, courseEndTime);
+            i++;
         }
     }
 }
